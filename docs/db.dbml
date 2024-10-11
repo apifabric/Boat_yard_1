@@ -1,0 +1,93 @@
+// Copy this text, paste to https://dbdiagram.io/d
+// Or, https://databasediagram.com/app
+
+Table Boat {
+    id INTEGER [primary key]
+    name VARCHAR 
+    length FLOAT 
+    Type VARCHAR 
+    }
+
+Table BoatService {
+    id INTEGER [primary key]
+    booking_id INTEGER 
+    service_id INTEGER 
+    scheduled_date DATETIME 
+    }
+
+Table Booking {
+    id INTEGER [primary key]
+    customer_id INTEGER 
+    boat_id INTEGER 
+    storage_slot_id INTEGER 
+    start_date DATETIME 
+    end_date DATETIME 
+    }
+
+Table Service {
+    id INTEGER [primary key]
+    name VARCHAR 
+    description TEXT 
+    }
+
+Table Customer {
+    id INTEGER [primary key]
+    name VARCHAR 
+    email VARCHAR 
+    }
+
+Table StorageSlot {
+    id INTEGER [primary key]
+    location VARCHAR 
+    size VARCHAR 
+    }
+
+Table Employee {
+    id INTEGER [primary key]
+    name VARCHAR 
+    role VARCHAR 
+    }
+
+Table Invoice {
+    id INTEGER [primary key]
+    transaction_id INTEGER 
+    issue_date DATETIME 
+    }
+
+Table Transaction {
+    id INTEGER [primary key]
+    customer_id INTEGER 
+    amount FLOAT 
+    transaction_date DATETIME 
+    }
+
+Table Part {
+    id INTEGER [primary key]
+    name VARCHAR 
+    price FLOAT 
+    }
+
+Table Repair {
+    id INTEGER [primary key]
+    boat_service_id INTEGER 
+    description TEXT 
+    }
+
+Table Supply {
+    id INTEGER [primary key]
+    part_id INTEGER 
+    supplier_name VARCHAR 
+    }
+
+
+
+// Relationships
+    Ref: BoatService.(booking_id) < Booking.(id)
+    Ref: BoatService.(service_id) < Service.(id)
+    Ref: Booking.(boat_id) < Boat.(id)
+    Ref: Booking.(customer_id) < Customer.(id)
+    Ref: Booking.(storage_slot_id) < StorageSlot.(id)
+    Ref: Invoice.(transaction_id) < Transaction.(id)
+    Ref: Transaction.(customer_id) < Customer.(id)
+    Ref: Repair.(boat_service_id) < BoatService.(id)
+    Ref: Supply.(part_id) < Part.(id)

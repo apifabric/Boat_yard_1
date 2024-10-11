@@ -1,0 +1,311 @@
+about:
+  date: October 11, 2024 20:09:38
+  recent_changes: works with modified safrs-react-admin
+  version: 0.0.0
+api_root: '{http_type}://{swagger_host}:{port}/{api}'
+authentication: '{system-default}'
+info:
+  number_relationships: 9
+  number_tables: 12
+info_toggle_checked: true
+resources:
+  Boat:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: length
+    - name: Type
+    - name: id
+    description: Table to store information about boats.
+    info_list: Table to store information about boats.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - boat_id
+      name: BookingList
+      resource: Booking
+    type: Boat
+    user_key: name
+  BoatService:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: booking_id
+      required: true
+    - name: service_id
+      required: true
+    - name: scheduled_date
+      required: true
+    description: Table to store service appointments for boats.
+    info_list: Table to store service appointments for boats.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - boat_service_id
+      name: RepairList
+      resource: Repair
+    - direction: toone
+      fks:
+      - booking_id
+      name: booking
+      resource: Booking
+    - direction: toone
+      fks:
+      - service_id
+      name: service
+      resource: Service
+    type: BoatService
+    user_key: id
+  Booking:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: boat_id
+      required: true
+    - name: customer_id
+      required: true
+    - name: storage_slot_id
+    - name: start_date
+      required: true
+    - name: end_date
+    description: Table to store booking information.
+    info_list: Table to store booking information.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - booking_id
+      name: BoatServiceList
+      resource: BoatService
+    - direction: toone
+      fks:
+      - boat_id
+      name: boat
+      resource: Boat
+    - direction: toone
+      fks:
+      - customer_id
+      name: customer
+      resource: Customer
+    - direction: toone
+      fks:
+      - storage_slot_id
+      name: storage_slot
+      resource: StorageSlot
+    type: Booking
+    user_key: id
+  Customer:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: email
+    - name: id
+    description: Table to store customer information.
+    info_list: Table to store customer information.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - customer_id
+      name: BookingList
+      resource: Booking
+    - direction: tomany
+      fks:
+      - customer_id
+      name: TransactionList
+      resource: Transaction
+    type: Customer
+    user_key: name
+  Employee:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: role
+      required: true
+    - name: id
+    description: Table to store employee information.
+    info_list: Table to store employee information.
+    type: Employee
+    user_key: name
+  Invoice:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: transaction_id
+      required: true
+    - name: issue_date
+    description: Table to generate invoice records.
+    info_list: Table to generate invoice records.
+    tab_groups:
+    - direction: toone
+      fks:
+      - transaction_id
+      name: transaction
+      resource: Transaction
+    type: Invoice
+    user_key: id
+  Part:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: price
+    - name: id
+    description: Table to store information about parts available for purchase.
+    info_list: Table to store information about parts available for purchase.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - part_id
+      name: SupplyList
+      resource: Supply
+    type: Part
+    user_key: name
+  Repair:
+    attributes:
+    - label: ' description*'
+      name: description
+      search: true
+      sort: true
+    - name: boat_service_id
+      required: true
+    - name: id
+    description: Table to store repair records.
+    info_list: Table to store repair records.
+    tab_groups:
+    - direction: toone
+      fks:
+      - boat_service_id
+      name: boat_service
+      resource: BoatService
+    type: Repair
+    user_key: description
+  Service:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: description
+    - name: id
+    description: Table to list various services offered.
+    info_list: Table to list various services offered.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - service_id
+      name: BoatServiceList
+      resource: BoatService
+    type: Service
+    user_key: name
+  StorageSlot:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: location
+      required: true
+    - name: size
+    description: Table to store information about boat storage slots.
+    info_list: Table to store information about boat storage slots.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - storage_slot_id
+      name: BookingList
+      resource: Booking
+    type: StorageSlot
+    user_key: id
+  Supply:
+    attributes:
+    - label: ' supplier_name*'
+      name: supplier_name
+      required: true
+      search: true
+      sort: true
+    - name: part_id
+      required: true
+    - name: id
+    description: Table to store supply details for parts.
+    info_list: Table to store supply details for parts.
+    tab_groups:
+    - direction: toone
+      fks:
+      - part_id
+      name: part
+      resource: Part
+    type: Supply
+    user_key: supplier_name
+  Transaction:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: customer_id
+      required: true
+    - name: amount
+      required: true
+    - name: transaction_date
+    description: Table to store transactions made by customers.
+    info_list: Table to store transactions made by customers.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - transaction_id
+      name: InvoiceList
+      resource: Invoice
+    - direction: toone
+      fks:
+      - customer_id
+      name: customer
+      resource: Customer
+    type: Transaction
+    user_key: id
+settings:
+  HomeJS: /admin-app/home.js
+  max_list_columns: 8
+  style_guide:
+    applicationLocales:
+    - en
+    - es
+    currency_symbol: $
+    currency_symbol_position: left
+    date_format: LL
+    decimal_max: '1000000000'
+    decimal_min: '0'
+    decimal_separator: .
+    detail_mode: tab
+    edit_on_mode: dblclick
+    include_translation: 'false'
+    keycloak_client_id: alsclient
+    keycloak_realm: kcals
+    keycloak_url: http://localhost:8080
+    locale: en
+    max_decimal_digits: '4'
+    min_decimal_digits: '2'
+    new_mode: dialog
+    pick_style: list
+    row_height: small,
+    serviceType: OntimizeEE
+    startSessionPath: /auth/login
+    style: light
+    thousand_separator: ','
+    use_keycloak: 'false'
